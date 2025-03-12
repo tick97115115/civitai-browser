@@ -6,12 +6,12 @@ const models_response_modelVersion = versionId_response_from_versionId.and({
   earlyAccessEndsAt: 'string',
 })
 
-const period = type("'AllTime' | 'Day' | 'Week' | 'Month' | 'Year'")
+export const models_request_period = type("'AllTime' | 'Day' | 'Week' | 'Month' | 'Year'")
 
 const allowCommercialUse = type("'Image' | 'RentCivit' | 'Rent' | 'Sell' | 'None'")
-const models_request_sort = type("'Highest Rated' | 'Most Downloaded' | 'Newest'")
+export const models_request_sort = type("'Highest Rated' | 'Most Downloaded' | 'Newest'")
 
-const model_types = type(
+export const model_types = type(
   "'Checkpoint' | 'TextualInversion' | 'Hypernetwork' | 'AestheticGradient' | 'LORA' | 'Controlnet' | 'Poses' | 'LoCon' | 'DoRA' | 'Other' | 'MotionModule' | 'Upscaler' | 'VAE' | 'Wildcards' | 'Workflows'",
 )
 
@@ -63,7 +63,7 @@ export const models_request_opts = type({
   'username?': 'string', // Search query to filter models by user
   'types?': model_types.array(), // The type of model you want to filter with. If none is specified, it will return all types
   'sort?': models_request_sort, // The order in which you wish to sort the results
-  'period?': period, // The time frame in which the models will be sorted
+  'period?': models_request_period, // The time frame in which the models will be sorted
   'rating?': 'number.integer', // The rating you wish to filter the models with. If none is specified, it will return models with any rating
   'favorites?': 'boolean', // (AUTHED) Filter to favorites of the authenticated user (this requires an API token or session cookie)
   'hidden?': 'boolean', // (AUTHED) Filter to hidden models of the authenticated user (this requires an API token or session cookie)

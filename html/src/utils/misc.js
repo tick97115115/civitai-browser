@@ -1,3 +1,5 @@
+import { ar } from 'vuetify/locale'
+
 /**
  * Convert any object to URLSearchParams type.
  * @param {*} obj - the object you want to process
@@ -34,3 +36,18 @@ export function objectToQueryString(obj) {
 
 // console.log(query.toString());
 // // 输出: page=1&limit=10&tags[]=javascript&tags[]=web&tags[]=api
+
+/**
+ * Convert any arktype string enum to Array<string>.
+ * @param {*} arktype_obj - the object you want to process
+ * @returns {Array<string>}
+ */
+export function convert_arktype_enum_to_array(arktype_obj) {
+  const raw_data = arktype_obj.toJSON()
+  const arr = []
+  for (let index = 0; index < raw_data.length; index++) {
+    const element = raw_data[index]
+    arr.push(element['unit'])
+  }
+  return arr
+}

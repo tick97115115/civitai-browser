@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest'
 import { ArkErrors, type } from 'arktype'
+import { model_types } from '../models'
 
 test('enum', () => {
   const enumerate_type = type({
@@ -18,4 +19,17 @@ test('enum', () => {
     console.log(`Hello, ${instance.sort}`)
   }
   expect(instance.sort).toStrictEqual('Oldest')
+})
+
+test('enum to list', () => {
+  const res = model_types.toJSON() as Array<{ unit: string }>
+  console.log(res)
+  const arr = []
+  for (let index = 0; index < res.length; index++) {
+    const element = res[index]
+    console.log(element.unit)
+    arr.push(element.unit)
+  }
+  console.log(arr)
+  expect(arr[0]).toStrictEqual(res[0].unit)
 })
