@@ -1,6 +1,6 @@
 <template>
-  <v-card>
-    <v-layout>
+  <v-card height="100vh">
+    <v-layout height="100%">
       <v-app-bar color="primary">
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -31,16 +31,13 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-main>
-        <RouterView></RouterView>
-      </v-main>
+      <v-main><RouterView></RouterView> </v-main>
     </v-layout>
   </v-card>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-import CivitaiView from './views/Civitai.vue'
 import SearchButton from './components/SearchButton.vue'
 import { ref, watch } from 'vue'
 

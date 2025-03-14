@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" scrollable width="auto">
+  <v-dialog v-model="dialog" scrollable width="auto" min-width="400px">
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn icon="mdi-magnify" v-bind="activatorProps" variant="text"> </v-btn>
     </template>
@@ -12,16 +12,16 @@
             Models
           </v-tab>
 
-          <v-tab value="tab-2">
+          <!-- <v-tab value="tab-2">
             <v-icon icon="mdi-image-multiple"></v-icon>
             Images
-          </v-tab>
+          </v-tab> -->
 
-          <v-tab value="tab-3">
+          <v-tab value="tab-2">
             <v-icon icon="mdi-account-box"></v-icon>
             Creators
           </v-tab>
-          <v-tab value="tab-4">
+          <v-tab value="tab-3">
             <v-icon icon="mdi-tag-multiple"></v-icon>
             Tags
           </v-tab>
@@ -33,11 +33,15 @@
             <SearchButtonModelsTab></SearchButtonModelsTab>
           </v-tabs-window-item>
 
-          <v-tabs-window-item value="tab-2" @click="console.log(tab)"> tab2 </v-tabs-window-item>
+          <!-- <v-tabs-window-item value="tab-2" @click="console.log(tab)"> tab2 </v-tabs-window-item> -->
 
-          <v-tabs-window-item value="tab-3" @click="console.log(tab)"> tab3 </v-tabs-window-item>
+          <v-tabs-window-item value="tab-2" @click="console.log(tab)">
+            <SearchButtonCreatorsTab></SearchButtonCreatorsTab>
+          </v-tabs-window-item>
 
-          <v-tabs-window-item value="tab-4" @click="console.log(tab)"> tab4 </v-tabs-window-item>
+          <v-tabs-window-item value="tab-3" @click="console.log(tab)">
+            <SearchButtonTagsTab></SearchButtonTagsTab>
+          </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
     </v-card>
@@ -46,6 +50,8 @@
 
 <script lang="ts" setup>
 import SearchButtonModelsTab from './SearchButtonModelsTab.vue'
+import SearchButtonCreatorsTab from './SearchButtonCreatorsTab.vue'
+import SearchButtonTagsTab from './SearchButtonTagsTab.vue'
 import { ref, shallowRef } from 'vue'
 
 const tab = ref(null)

@@ -1,12 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import CivitaiView from '../views/Civitai.vue'
+import ModelsView from '../views/civitai/Models.vue'
+import CreatorsView from '../views/civitai/Creators.vue'
+import TagsView from '../views/civitai/Tags.vue'
 import LocalView from '../views/Local.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'civitai',
-    component: CivitaiView,
+    name: 'civitai_models',
+    component: ModelsView,
+  },
+  {
+    path: '/creators',
+    name: 'civitai_creators',
+    component: CreatorsView,
+  },
+  {
+    path: '/tags',
+    name: 'civitai_tags',
+    component: TagsView,
   },
   {
     path: '/local',
