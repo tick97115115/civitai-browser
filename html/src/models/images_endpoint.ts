@@ -1,6 +1,5 @@
 import { type } from 'arktype'
-
-const nsfwLevel = type("'None' | 'Soft' | 'Mature' | 'X'")
+import { nsfwLevel } from './baseModels/misc'
 
 const images_response_item = type({
   id: 'number.integer',

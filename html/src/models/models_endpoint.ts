@@ -1,50 +1,14 @@
+import { modelId_response } from './modelId_endpoint'
+import {
+  model_types,
+  allowCommercialUse,
+  models_request_sort,
+  models_request_period,
+} from './baseModels/misc'
 import { type } from 'arktype'
-import { versionId_response as versionId_response_from_versionId } from './versionId'
-import { creators_response_creator } from './creators'
-
-const models_response_modelVersion = versionId_response_from_versionId.and({
-  earlyAccessEndsAt: 'string',
-})
-
-export const models_request_period = type("'AllTime' | 'Day' | 'Week' | 'Month' | 'Year'")
-
-const allowCommercialUse = type("'Image' | 'RentCivit' | 'Rent' | 'Sell' | 'None'")
-export const models_request_sort = type("'Highest Rated' | 'Most Downloaded' | 'Newest'")
-
-export const model_types = type(
-  "'Checkpoint' | 'TextualInversion' | 'Hypernetwork' | 'AestheticGradient' | 'LORA' | 'Controlnet' | 'Poses' | 'LoCon' | 'DoRA' | 'Other' | 'MotionModule' | 'Upscaler' | 'VAE' | 'Wildcards' | 'Workflows'",
-)
-
-export const models_response_modelId = type({
-  id: 'number.integer',
-  name: 'string',
-  description: 'string',
-  allowNoCredit: 'boolean',
-  allowCommercialUse: allowCommercialUse.array(),
-  allowDerivatives: 'boolean',
-  allowDifferentLicense: 'boolean',
-  type: model_types,
-  minor: 'boolean',
-  poi: 'boolean',
-  nsfw: 'boolean',
-  nsfwLevel: 'number.integer',
-  tags: 'string[]',
-  creator: creators_response_creator,
-  stats: {
-    downloadCount: 'number.integer',
-    favoriteCount: 'number.integer',
-    thumbsUpCount: 'number.integer',
-    thumbsDownCount: 'number.integer',
-    commentCount: 'number.integer',
-    ratingCount: 'number.integer',
-    rating: 'number',
-    tippedAmountCount: 'number.integer',
-  },
-  modelVersions: models_response_modelVersion.array(),
-})
 
 export const models_response = type({
-  items: models_response_modelId.array(),
+  items: modelId_response.array(),
   metadata: {
     'totalItems?': 'number.integer',
     'currentPage?': 'number.integer',

@@ -13,7 +13,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@gopeed/rest": "^1.6.1",
     "arktype": "^2.1.9",
+    "dexie": "^4.0.11",
     "ky": "^1.7.5",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",

@@ -11,17 +11,14 @@
             "id": "44a48e7b7577ceef",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Blueprint.canvas",
-                "viewState": {
-                  "x": 181.68555904093648,
-                  "y": 2477.927112674678,
-                  "zoom": -1.9999999999999998
-                }
+                "file": "CivitAI/基于civitai API实现的模型浏览功能十分有限.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Blueprint"
+              "icon": "lucide-file",
+              "title": "基于civitai API实现的模型浏览功能十分有限"
             }
           }
         ]
@@ -168,8 +165,14 @@
   },
   "active": "44a48e7b7577ceef",
   "lastOpenFiles": [
-    "Intro.md",
+    "CivitAI/imgs/Pasted image 20250315005557.png",
+    "CivitAI/基于civitai API实现的模型浏览功能十分有限.md",
+    "Pasted image 20250203082728.png",
+    "CivitAI/imgs/Pasted image 20250315005420.png",
+    "CivitAI/imgs/Screenshot 2025-03-15 003235.png",
+    "CivitAI/imgs",
     "Blueprint.canvas",
+    "Intro.md",
     "Logic/tag_system/tag_system_design.canvas",
     "Functions/safetensors file info extraction.md",
     "Logic/tag_system",
@@ -178,14 +181,13 @@
     "Logic/Program lifecycle.md",
     "Logic/Main.canvas",
     "Logic/Pre-requirements info for program.md",
-    "Pasted image 20250203082728.png",
     "Logic",
     "Functions/imgs/Card_Keywords.png",
     "CivitAI/model.md",
     "Functions/imgs",
     "Tag_Quick_Reference",
     "Local/local models info.md",
-    "Local",
+    "CivitAI/Local",
     "CivitAI/Model info download.md",
     "CivitAI/Model previews download.md",
     "CivitAI",

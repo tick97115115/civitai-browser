@@ -1,5 +1,5 @@
-import { models_request_opts, models_response } from '../models/models'
-import type { ModelsRequestOpts } from '../models/models'
+import { models_request_opts, models_response } from '../models/models_deprecated'
+import type { ModelsRequestOpts } from '../models/models_deprecated'
 import ky from 'ky'
 import { objectToQueryString } from './misc'
 

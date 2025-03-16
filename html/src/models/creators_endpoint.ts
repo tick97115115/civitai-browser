@@ -3,7 +3,7 @@ import { type } from 'arktype'
 export const creators_response_creator = type({
   username: 'string',
   'modelCount?': 'number.integer',
-  link: 'string.url',
+  'link?': 'string.url',
   'image?': 'string.url',
 })
 

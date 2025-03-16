@@ -31,7 +31,7 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-main><RouterView></RouterView> </v-main>
+        <v-main><RouterView></RouterView></v-main>
     </v-layout>
   </v-card>
 </template>

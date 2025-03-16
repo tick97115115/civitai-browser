@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { ArkErrors, type } from 'arktype'
-import { model_types } from '../models'
+import { model_types } from '../baseModels/misc'
 
 test('enum', () => {
   const enumerate_type = type({
