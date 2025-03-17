@@ -18,7 +18,6 @@ class Model_Types(StrEnum):
     Wildcards = "Wildcards"
     Workflows = "Workflows"
 
-
 class Period(StrEnum):
     AllTime = "AllTime"
     Day = "Day"
@@ -52,35 +51,42 @@ class ModelVersion_Files_Hashes(BaseModel):
     AutoV2: str
     AutoV1: str
 
-class ModelVersion_Files_Metadata_Format(StrEnum):
+class Base_ModelVersion_Files_Metadata_Format(StrEnum):
     SafeTensor = "SafeTensor"
     PickleTensor = "PickleTensor"
     Other = "Other"
     Diffusers = "Diffusers"
 
-class ModelVersion_Files_Metadata(BaseModel):
-    format: ModelVersion_Files_Metadata_Format	# The specified model format for the file
+class Base_ModelVersion_Files_Metadata(BaseModel):
+    format: Base_ModelVersion_Files_Metadata_Format	# The specified model format for the file
 
-class ModelVersion_Files_PickleScanResult(StrEnum):
+class Base_ModelVersion_Files_PickleScanResult(StrEnum):
     Pending = 'Pending'
     Success = 'Success'
     Danger = 'Danger'
     Error = 'Error'
     
-class ModelVersion_Files_VirusScanResult(StrEnum):
+class Base_ModelVersion_Files_VirusScanResult(StrEnum):
     Pending = 'Pending'
     Success = 'Success'
     Danger = 'Danger'
     Error = 'Error'
 
-class modelVersion_File(BaseModel):
+class Base_ModelVersion_File(BaseModel):
     name: str # file name
     id: StrictInt # file id
-    metadata: ModelVersion_Files_Metadata
-    pickleScanResult: ModelVersion_Files_PickleScanResult # Status of the pickle scan ('Pending', 'Success', 'Danger', 'Error')
-    virusScanResult: ModelVersion_Files_VirusScanResult # Status of the virus scan ('Pending', 'Success', 'Danger', 'Error')
+    metadata: Base_ModelVersion_Files_Metadata
+    pickleScanResult: Base_ModelVersion_Files_PickleScanResult # Status of the pickle scan ('Pending', 'Success', 'Danger', 'Error')
+    virusScanResult: Base_ModelVersion_Files_VirusScanResult # Status of the virus scan ('Pending', 'Success', 'Danger', 'Error')
     scannedAt: str # (ISO 8601) The date in which the file was scanned
     primary: bool # If the file is the primary file for the model version
     type: str
     hashes: ModelVersion_Files_Hashes
     downloadUrl: str # model download url: "https://civitai.com/api/download/models/8387"
+
+class Base_ModelVersion_Image(BaseModel):
+    url: str
+    nsfwLevel: StrictInt
+    width: StrictInt
+    height: StrictInt
+    hash: str

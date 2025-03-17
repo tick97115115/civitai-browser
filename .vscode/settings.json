@@ -1,0 +1,6 @@
+{
+  "mypy.dmypyExecutable": "${workspaceFolder}/.venv/Scripts/dmypy.exe",
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

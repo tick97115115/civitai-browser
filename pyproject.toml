@@ -12,7 +12,18 @@ dependencies = [
     "gradio>=5.20.1",
     "pydantic>=2.10.6",
     "pydantic-settings>=2.8.1",
+    "pytest>=8.3.5",
     "sqlalchemy[asyncio]>=2.0.38",
     "sqlmodel>=0.0.24",
     "uvicorn>=0.34.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["notes", "html", ".venv"]
+pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
 ]
