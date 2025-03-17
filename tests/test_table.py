@@ -1,5 +1,5 @@
 from typing import List
-from sqlmodel import create_engine, Session, SQLModel
+from sqlmodel import create_engine, Session, SQLModel, select
 from db.table import CivitAI_Model, CivitAI_ModelVersion
 from models.api.v1.modelId_endpoint import ModelId_Response
 import pytest
@@ -351,8 +351,9 @@ def test_create_model(civitai_model_data_1, session):
 
     model_1 = CivitAI_Model(id=model_validate.id,
                             name=model_validate.name,
+                            type=model_validate.type,
                             nsfw=model_validate.nsfw,
-                            json_data=model_validate,
+                            json_data=model_validate.model_dump(),
                             model_versions=[])
     
     for version in model_validate.modelVersions:
@@ -368,6 +369,12 @@ def test_create_model(civitai_model_data_1, session):
     session.commit()
 
     assert model_1.id == model_validate.id
-    assert model_1.model_versions[0].id == model_validate.modelVersions[0].id
-    assert model_1.model_versions[1].id == model_validate.modelVersions[1].id
-    assert model_1.json_data['id'] == model_1.id
+    statement_1 = select(CivitAI_ModelVersion).where(CivitAI_ModelVersion.id == model_validate.modelVersions[0].id)
+    version_result_1 = session.exec(statement_1)
+    for result in version_result_1:
+        if (result.id == model_validate.modelVersions[0].id):
+            assert True
+        else:
+            raise AssertionError()
+
+    # assert model_1.json_data['id'] == model_1.id

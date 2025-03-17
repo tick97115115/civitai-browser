@@ -10,7 +10,7 @@ class CivitAI_Model(SQLModel, table=True):
     name: str = Field(index=True)
     type: Model_Types = Field(index=True)
     nsfw: bool
-    json_data: ModelId_Response = Field(sa_column=Column(JSON), default_factory=ModelId_Response)
+    json_data: dict = Field(sa_column=Column(JSON), default_factory=dict)
     model_versions: list["CivitAI_ModelVersion"] = Relationship(back_populates="model")
 
 # class CivitAI_Model_Tag(SQLModel, table=True):
