@@ -1,6 +1,6 @@
 from typing import List
 from sqlmodel import create_engine, Session, SQLModel, select
-from db.table import CivitAI_Model, CivitAI_ModelVersion, CivitAI_Tag
+from db.civitai_table import CivitAI_Model, CivitAI_ModelVersion, CivitAI_Tag
 from models.api.v1.modelId_endpoint import ModelId_Response
 import pytest
 
@@ -341,7 +341,9 @@ def civitai_model_data_1():
 
 @pytest.fixture
 def session():
+    from os.path import dirname, join
     engine = create_engine("sqlite:///:memory:")
+    # engine = create_engine(f"sqlite:///{join(dirname(__file__), 'db.sqlite3')}")
     SQLModel.metadata.create_all(engine)
     with Session(engine) as session:
         yield session
@@ -356,7 +358,7 @@ def test_create_model(civitai_model_data_1, session):
                             json_data=model_validate.model_dump(),
                             tags=[],
                             model_versions=[])
-    
+
     for version in model_validate.modelVersions:
         model_1.model_versions.append(
             CivitAI_ModelVersion(
@@ -365,7 +367,7 @@ def test_create_model(civitai_model_data_1, session):
                 model=model_1
             )
         )
-    
+
     for tag in model_validate.tags:
         model_1.tags.append(CivitAI_Tag(
             name=tag
@@ -382,7 +384,7 @@ def test_create_model(civitai_model_data_1, session):
             assert True
         else:
             raise AssertionError()
-    
+
     statement_2 = select(CivitAI_Tag)
     tag_result_2 = session.exec(statement_2)
     for result in tag_result_2:
