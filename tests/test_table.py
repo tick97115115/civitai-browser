@@ -1,6 +1,6 @@
 from typing import List
 from sqlmodel import create_engine, Session, SQLModel, select
-from db.table import CivitAI_Model, CivitAI_ModelVersion
+from db.table import CivitAI_Model, CivitAI_ModelVersion, CivitAI_Tag
 from models.api.v1.modelId_endpoint import ModelId_Response
 import pytest
 
@@ -354,6 +354,7 @@ def test_create_model(civitai_model_data_1, session):
                             type=model_validate.type,
                             nsfw=model_validate.nsfw,
                             json_data=model_validate.model_dump(),
+                            tags=[],
                             model_versions=[])
     
     for version in model_validate.modelVersions:
@@ -364,6 +365,11 @@ def test_create_model(civitai_model_data_1, session):
                 model=model_1
             )
         )
+    
+    for tag in model_validate.tags:
+        model_1.tags.append(CivitAI_Tag(
+            name=tag
+        ))
 
     session.add(model_1)
     session.commit()
@@ -376,5 +382,16 @@ def test_create_model(civitai_model_data_1, session):
             assert True
         else:
             raise AssertionError()
+    
+    statement_2 = select(CivitAI_Tag)
+    tag_result_2 = session.exec(statement_2)
+    for result in tag_result_2:
+        if (result.name in model_validate.tags):
+            assert True
+        else:
+            raise AssertionError()
+    
+    tag_result_2 = session.exec(statement_2).all()
+    assert len(tag_result_2) == 4
 
     # assert model_1.json_data['id'] == model_1.id
