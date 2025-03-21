@@ -351,13 +351,15 @@ def session():
 def test_create_model(civitai_model_data_1, session):
     model_validate = ModelId_Response(**civitai_model_data_1)
 
-    model_1 = CivitAI_Model(id=model_validate.id,
-                            name=model_validate.name,
-                            type=model_validate.type,
-                            nsfw=model_validate.nsfw,
-                            json_data=model_validate.model_dump(),
-                            tags=[],
-                            model_versions=[])
+    model_1 = CivitAI_Model(
+        id=model_validate.id,
+        name=model_validate.name,
+        type=model_validate.type,
+        nsfw=model_validate.nsfw,
+        json_data=model_validate.model_dump(),
+        tags=[],
+        model_versions=[]
+        )
 
     for version in model_validate.modelVersions:
         model_1.model_versions.append(
