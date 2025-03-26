@@ -10,7 +10,7 @@ export const modelVersion_Base = type({
   // status: 'string',
   trainedWords: 'string[]',
   baseModel: 'string',
-  // createdAt: 'string', //ISO 8061 // 这个并没有出现在 models endpoint，嘻嘻civitai里这帮逆天程序员写的什么几把东西？这么多对象不一致的问题存在，有没有调用过自己写的API？
+  // createdAt: 'string', //ISO 8061 // 这个并没有出现在 models endpoint
   downloadUrl: 'string.url',
   files: modelVersion_Base_file.array(),
   images: modelVersion_Base_image.array(),
