@@ -5,14 +5,13 @@ from pydantic import Field
 from os.path import join, dirname, exists
 import json
 
-from main import app
+from api.app import app, settings_file, sqlite_file
 
 router = APIRouter()
 
-settings_file = join(dirname(__file__), '.settings.json')
 
 class Settings(BaseSettings):
-    db_uri: str = Field(default=join(dirname(__file__), 'db.sqlite3'))
+    db_uri: str = Field(default='sqlite:///' + sqlite_file)
     lora_folder: str = ""
     checkpoint_folder: str = ''
     proxy: str | None = Field(default=None)
@@ -86,24 +85,23 @@ def check_settings(settings: Settings):
         raise CheckpointFolderNotFound(msg="checkpoint folder doesn't exists")
     
     # check database
-    if not exists(settings.db_uri):
-        raise DatabaseNotFound(msg="database doesn't exists")
+    # if not exists(settings.db_uri):
+    #     raise DatabaseNotFound(msg="database doesn't exists")
 
-@router.get("/settings")
-def load_settings():
+@router.get("/api/v1/settings", response_model=Settings)
+def load_settings() -> Settings:
     # if file content broken makes it un deserializable
     try:
         with open(settings_file, 'r', encoding='utf-8') as f:
-            f_str = f.read()
-            data = json.loads(f_str)
+            data = json.loads(f.read())
             # if settings option value (like lora_folder) can't be found
             settings = Settings(**data)
             check_settings(settings)
             return settings
-    except:
-        raise LoadSettingsError("Load settings failed")
+    except Exception as e:
+        raise LoadSettingsError(str(e))
 
-@router.post("/settings")
+@router.post("/api/v1/settings")
 def save_settings(settings: Settings):
     with open(settings_file, 'w', encoding="utf-8") as f:
         f.write(settings.model_dump_json(indent=2))
@@ -128,7 +126,7 @@ def init() -> Settings:
             settings = Settings()
             save_settings(settings)
             print("Load settings.json failed, replace \".settings.json\" with default values.")
-            input("Please edit \".settings.json\", then Press enter to continue...")
+            input(f"Please edit \"{settings_file}\", then Press enter to continue...")
             continue
         except LoraFolderNotFound:
             print("Lora folder not found")
@@ -138,10 +136,17 @@ def init() -> Settings:
             print("Checkpoint folder not found")
             input("please check \"checkpoint_folder\" value in \".settings.json\" then Press enter to continue...")
             continue
-        except DatabaseNotFound:
-            print("Database not found")
-            input("please check \"db_uri\" value in \".settings.json\" then Press enter to continue...")
-            continue
+        # except DatabaseNotFound:
+        #     print("Database not found, is this your first time running the app?")
+        #     answer = input("(Y/N): ")
+        #     if answer.lower() == 'y':
+        #         print("Creating new database...")
+        #         from sqlmodel import create_engine, SQLModel, Session
+        #         SQLModel.metadata.create_all(engine)
+        #     else:
+        #         print("Please check \"db_uri\" value in \".settings.json\"")
+        #         input("Press enter to continue...")
+        #     continue
 
         initial_check_pass = True
     

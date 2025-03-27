@@ -9,8 +9,8 @@ class ModelVersionGopeedTask(SQLModel, table=True):
     image_tasks: list["ModelVersionImageGopeedTask"] = Relationship(back_populates="model_version_task")
 
 class ModelVersionImageGopeedTask(SQLModel, table=True):
-    version_id: StrictInt = Field(foreign_key="model_version_gopeed_task.version_id", index=True)
-    task_id: str
+    version_id: StrictInt = Field(foreign_key=f"{ModelVersionGopeedTask.__tablename__}.version_id", index=True)
+    task_id: str = Field(primary_key=True)
     file_name: str
     path: str
     model_version_task: ModelVersionGopeedTask = Relationship(back_populates="image_tasks")

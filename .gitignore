@@ -10,4 +10,5 @@ wheels/
 .venv
 
 # test generated files
-tests/db.sqlite3
+db.sqlite3
+civitai_browser_settings.json

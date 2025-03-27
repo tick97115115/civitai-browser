@@ -1,8 +1,8 @@
 from sqlmodel import SQLModel, Field, Relationship
 # from sqlalchemy.dialects.sqlite import JSON
 from sqlalchemy import Column, JSON
-from models.api.v1.base.misc import Model_Types
-from models.api.v1.modelId_endpoint import ModelId_Response
+from civitai_api.v1.models.base.misc import Model_Types
+from civitai_api.v1.models.modelId_endpoint import ModelId_Response
 from pydantic import StrictInt
 
 class CivitAI_ModelTagLink(SQLModel, table=True):

@@ -1,7 +1,7 @@
 from typing import List
 from sqlmodel import create_engine, Session, SQLModel, select
-from db.civitai_table import CivitAI_Model, CivitAI_ModelVersion, CivitAI_Tag
-from models.api.v1.modelId_endpoint import ModelId_Response
+from api.v1.db.civitai_table import CivitAI_Model, CivitAI_ModelVersion, CivitAI_Tag
+from civitai_api.v1.models.modelId_endpoint import ModelId_Response
 import pytest
 
 @pytest.fixture
