@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "program/unit of work and temp directory.md",
+                "file": "Logic/Download_models/How to download file based on json data that returned from CivitAI API..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "unit of work and temp directory"
+              "title": "How to download file based on json data that returned from CivitAI API."
             }
           }
         ],
@@ -209,7 +209,11 @@
   "active": "6ac67bcf3697c96e",
   "lastOpenFiles": [
     "program/API structure.md",
+    "Logic/Download_models/How to download file based on json data that returned from CivitAI API..md",
+    "Logic/Download_models/Untitled.canvas",
+    "Logic/Download_models/data.json",
     "program/unit of work and temp directory.md",
+    "Logic/Download_models",
     "program/Async SQLModel.md",
     "CivitAI/基于civitai API实现的模型浏览功能十分有限.md",
     "program",
@@ -237,7 +241,6 @@
     "CivitAI/Local",
     "CivitAI/Model info download.md",
     "CivitAI/Model previews download.md",
-    "CivitAI",
-    "Functions"
+    "CivitAI"
   ]
 }

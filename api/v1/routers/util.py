@@ -2,7 +2,6 @@ from .settings import load_settings
 from civitai_api.v1.models.modelId_endpoint import ModelId_Response
 from civitai_api.v1.models.base.modelVersion import Base_ModelVersion
 from civitai_api.v1.models.base.misc import Model_Types
-from gospeed_api.index import GospeedAPI
 from fastapi import APIRouter
 import pathlib
 import anyio
@@ -33,25 +32,26 @@ def get_model_version_path(modelId: int, versionId: int, modelType: Model_Types)
 
 @router.post('/api/v1/util/save_civitai_model_version_info')
 def save_civitai_model_version_info(modelId: int, versionId: int, modelType: Model_Types, modelVersion_model: Base_ModelVersion):
-    model_path = get_model_version_path(modelId=modelId, versionId=versionId, modelType=modelType)
+    model_path_str = get_model_version_path(modelId=modelId, versionId=versionId, modelType=modelType)
+    model_path = pathlib.Path(model_path_str)
     model_path.mkdir(parents=True, exist_ok=True)
     with open(model_path / civitai_model_version_info_file_name, 'w') as f:
         f.write(modelVersion_model.model_dump_json())
 
+@router.post('/api/v1/util/save_civitai_model_id_info')
 def save_model_civitai_id_info(modelId_model: ModelId_Response):
-    model_id_path = get_model_id_path(modelId_model)
+    model_id_path_str = get_model_id_path(modelId=modelId_model.id, modelType=modelId_model.type)
+    model_id_path = pathlib.Path(model_id_path_str)
     model_id_path.mkdir(parents=True, exist_ok=True)
     with open(model_id_path / civitai_model_id_info_file_name, 'w') as f:
         f.write(modelId_model.model_dump_json())
-
-async def async_save_model_civitai_id_info(modelId_model: ModelId_Response):
-    model_id_path = await async_get_model_id_path(modelId_model)
-    await model_id_path.mkdir(parents=True, exist_ok=True)
-    model_id_info_file = model_id_path / civitai_model_id_info_file_name
-    await model_id_info_file.write_text(modelId_model.model_dump_json())
 
 def find_modelVersion_in_modelId_response(modelId_model: ModelId_Response, versionId: int) -> Base_ModelVersion:
     for modelVersion in modelId_model.modelVersions:
         if modelVersion.id == versionId:
             return modelVersion
     raise Exception("Model version not found")
+
+def get_model_version_file_download_path(modelId_model: ModelId_Response, versionId: int, modelType: Model_Types) -> str:
+    model_version = find_modelVersion_in_modelId_response(modelId_model.id, versionId)
+    model_path = pathlib.Path(get_model_version_path(modelId_model.id, versionId, modelType) / modelId_model.name + model_version.name)

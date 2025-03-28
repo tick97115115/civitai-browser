@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship
 # from sqlalchemy.dialects.sqlite import JSON
-from sqlalchemy import Column, JSON
+from sqlalchemy import Column, JSON, BLOB
 from civitai_api.v1.models.base.misc import Model_Types
 from civitai_api.v1.models.modelId_endpoint import ModelId_Response
 from pydantic import StrictInt
@@ -30,3 +30,12 @@ class CivitAI_ModelVersion(SQLModel, table=True):
     model_id: StrictInt = Field(foreign_key="civitai_model.id")
     # json_data: dict = Field(sa_column=Column(JSON), default_factory=dict)
     model: CivitAI_Model = Relationship(back_populates="model_versions")
+    images: list["CivitAI_ModelVersionImage"] = Relationship(back_populates="model_version")
+
+class CivitAI_ModelVersionImage(SQLModel, table=True):
+    id: StrictInt = Field(primary_key=True)
+    mime: str
+    data: bytes = Field(sa_column=Column(BLOB), default_factory=bytes)
+    model_version_id: StrictInt = Field(foreign_key="civitai_modelversion.id")
+    # json_data: dict = Field(sa_column=Column(JSON), default_factory=dict)
+    model_version: CivitAI_ModelVersion = Relationship(back_populates="images")

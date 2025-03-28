@@ -2,20 +2,14 @@ from fastapi import APIRouter, Response, Request
 from fastapi.responses import JSONResponse
 from pydantic_settings import BaseSettings
 from pydantic import Field
+import httpx
 from os.path import join, dirname, exists
 import json
-
+from urllib.parse import urljoin
+from ..models.settings import Settings
 from api.app import app, settings_file, sqlite_file
 
 router = APIRouter()
-
-
-class Settings(BaseSettings):
-    db_uri: str = Field(default='sqlite:///' + sqlite_file)
-    lora_folder: str = ""
-    checkpoint_folder: str = ''
-    proxy: str | None = Field(default=None)
-    api_key: str | None = Field(default=None)
 
 # https://fastapi.tiangolo.com/tutorial/handling-errors/?h=exce#install-custom-exception-handlers
 
@@ -75,6 +69,34 @@ async def checkpoint_folder_not_found_exception_handler(request: Request, exc: C
         content={"message": exc.msg},
     )
 
+class GopeedServiceNotFound(Exception):
+    def __init__(self, msg: str):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+    
+@app.exception_handler(GopeedServiceNotFound)
+async def gopeed_service_not_found_exception_handler(request: Request, exc: GopeedServiceNotFound):
+    return JSONResponse(
+        status_code=500,
+        content={"message": exc.msg},
+    )
+
+class GopeedServiceNotWorking(Exception):
+    def __init__(self, msg: str):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+@app.exception_handler(GopeedServiceNotWorking)
+async def gopeed_service_not_working_exception_handler(request: Request, exc: GopeedServiceNotWorking):
+    return JSONResponse(
+        status_code=500,
+        content={"message": exc.msg},
+    )
+
 def check_settings(settings: Settings):
     # check if lora_folder exists
     if not exists(settings.lora_folder):
@@ -83,6 +105,15 @@ def check_settings(settings: Settings):
     # check if checkpoint_folder exists
     if not exists(settings.checkpoint_folder):
         raise CheckpointFolderNotFound(msg="checkpoint folder doesn't exists")
+    
+    # check if gopeed_url exists
+    if not settings.gopeed_url:
+        raise GopeedServiceNotFound(msg="gopeed service url not found")
+    
+    # check if gopeed service is working
+    response = httpx.get(urljoin(settings.gopeed_url, '/api/v1/info'))
+    if response.status_code != 200:
+        raise GopeedServiceNotWorking(msg="gopeed service not working")
     
     # check database
     # if not exists(settings.db_uri):
@@ -136,6 +167,10 @@ def init() -> Settings:
             print("Checkpoint folder not found")
             input("please check \"checkpoint_folder\" value in \".settings.json\" then Press enter to continue...")
             continue
+        except GopeedServiceNotWorking:
+            print("Gopeed service not working")
+            input("please check \"gopeed_url\" value in \".settings.json\" then Press enter to continue...")
+            continue
         # except DatabaseNotFound:
         #     print("Database not found, is this your first time running the app?")
         #     answer = input("(Y/N): ")
@@ -151,4 +186,3 @@ def init() -> Settings:
         initial_check_pass = True
     
     return settings
-
