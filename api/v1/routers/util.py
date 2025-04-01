@@ -1,8 +1,9 @@
 from .settings import load_settings
 from civitai_api.v1.models.modelId_endpoint import ModelId_Response
 from civitai_api.v1.models.base.modelVersion import Base_ModelVersion
-from civitai_api.v1.models.base.misc import Model_Types
+from civitai_api.v1.models.base.misc import Model_Types, Base_ModelVersion_File
 from fastapi import APIRouter
+from pydantic import StrictInt
 import pathlib
 import anyio
 
@@ -30,6 +31,10 @@ def get_model_version_path(modelId: int, versionId: int, modelType: Model_Types)
     dist = pathlib.Path(get_model_id_path(modelId, modelType)) / str(versionId)
     return str(dist.absolute())
 
+def get_model_version_img_path(modelId: int, versionId: int, modelType: Model_Types) -> str:
+    dist = pathlib.Path(get_model_version_path(modelId=modelId,versionId=versionId,modelType=modelType)) / "img"
+    return str(dist.absolute())
+
 @router.post('/api/v1/util/save_civitai_model_version_info')
 def save_civitai_model_version_info(modelId: int, versionId: int, modelType: Model_Types, modelVersion_model: Base_ModelVersion):
     model_path_str = get_model_version_path(modelId=modelId, versionId=versionId, modelType=modelType)
@@ -51,6 +56,10 @@ def find_modelVersion_in_modelId_response(modelId_model: ModelId_Response, versi
         if modelVersion.id == versionId:
             return modelVersion
     raise Exception("Model version not found")
+
+# def download_modelVersion_files(modelVersion: Base_ModelVersion):
+#     for file in modelVersion.files:
+
 
 def get_model_version_file_download_path(modelId_model: ModelId_Response, versionId: int, modelType: Model_Types) -> str:
     model_version = find_modelVersion_in_modelId_response(modelId_model.id, versionId)

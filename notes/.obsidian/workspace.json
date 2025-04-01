@@ -53,14 +53,17 @@
             "id": "6ac67bcf3697c96e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "Logic/Download_models/How to download file based on json data that returned from CivitAI API..md",
-                "mode": "source",
-                "source": false
+                "file": "Logic/Download_models/Untitled.canvas",
+                "viewState": {
+                  "x": -0.5,
+                  "y": 77.5,
+                  "zoom": 0
+                }
               },
-              "icon": "lucide-file",
-              "title": "How to download file based on json data that returned from CivitAI API."
+              "icon": "lucide-layout-dashboard",
+              "title": "Untitled"
             }
           }
         ],
@@ -208,8 +211,9 @@
   },
   "active": "6ac67bcf3697c96e",
   "lastOpenFiles": [
-    "program/API structure.md",
+    "Logic/tag_system/tag_system_design.canvas",
     "Logic/Download_models/How to download file based on json data that returned from CivitAI API..md",
+    "program/API structure.md",
     "Logic/Download_models/Untitled.canvas",
     "Logic/Download_models/data.json",
     "program/unit of work and temp directory.md",
@@ -224,7 +228,6 @@
     "CivitAI/imgs",
     "Blueprint.canvas",
     "Intro.md",
-    "Logic/tag_system/tag_system_design.canvas",
     "Functions/safetensors file info extraction.md",
     "Logic/tag_system",
     "Functions/Danbooru Tag Dictionary.md",
