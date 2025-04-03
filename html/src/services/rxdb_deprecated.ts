@@ -42,7 +42,7 @@ export type ModelVersionTaskDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
 export const tasksSchema: RxJsonSchema<ModelVersionTaskDocType> = tasksSchemaLiteral
 
 export type ModelVersionTaskDocMethods = {
-  checkAndCreate: () => boolean
+  getProgress: () => boolean
   finishAndDelete: () => boolean
 }
 
@@ -99,4 +99,12 @@ const modelVersionTaskSchema: RxJsonSchema<ModelVersionTaskDocType> = {
   },
   required: ['taskId', 'relatedImgsTasks'],
   indexes: ['versionId'],
+}
+
+const modelVersionTaskDocMethods: ModelVersionTaskDocMethods = {
+  getProgress: function (this: ModelVersionTaskDocument) {
+    try {
+      // check if task
+    } catch (error) {}
+  },
 }

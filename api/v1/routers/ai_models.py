@@ -4,7 +4,7 @@ from gospeed_api.models.create_a_task import CreateTask_DownloadOpt
 from ..db.civitai_table import CivitAI_Model
 from ..db.gopeed_table import ModelVersionGopeedTask, ModelVersionImageGopeedTask
 from .util import find_modelVersion_in_modelId_response, get_model_version_path
-from api.app import gospeed_api
+from init import gospeed_api
 
 router = APIRouter()
 

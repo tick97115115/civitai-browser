@@ -1,9 +1,11 @@
 from fastapi import Depends
 from sqlmodel import create_engine, Session, SQLModel
-from .routers.settings import load_settings
+from init import settings
 from contextlib import contextmanager
+from typing import Annotated
 
-settings = load_settings()
+import api.v1.db.civitai_table
+import api.v1.db.gopeed_table
 engine = create_engine(settings.db_uri)
 SQLModel.metadata.create_all(engine)
 
@@ -14,4 +16,6 @@ def get_db_session():
         yield session
     finally:
         session.close()
-        
+
+DbSessionDep = Annotated[dict, Depends(get_db_session)]
+

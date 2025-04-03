@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, Request
+from fastapi import APIRouter, Request, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic_settings import BaseSettings
 from pydantic import Field
@@ -6,8 +6,22 @@ import httpx
 from os.path import join, dirname, exists
 import json
 from urllib.parse import urljoin
-from ..models.settings import Settings
-from init import app, settings_file, sqlite_file
+from os.path import dirname, join
+from gospeed_api.index import GospeedAPI
+from civitai_api.v1 import CiviClient
+
+app = FastAPI()
+
+settings_file = join(dirname(__file__), 'civitai_browser_settings.json')
+sqlite_file = join(dirname(__file__), 'db.sqlite3')
+
+class Settings(BaseSettings):
+    db_uri: str = Field(default='sqlite:///' + sqlite_file)
+    lora_folder: str = ''
+    checkpoint_folder: str = ''
+    proxy: str = ''
+    api_key: str = ''
+    gopeed_url: str = ''
 
 router = APIRouter()
 
@@ -186,3 +200,17 @@ def init() -> Settings:
         initial_check_pass = True
     
     return settings
+
+settings = init()
+
+gospeed_api = GospeedAPI(gopeed_host=settings.gopeed_url)
+
+def instantiate_civitai_client(settings: Settings):
+    if settings.proxy != '':
+        httpx_client = httpx.Client(proxy=settings.proxy)
+        async_httpx_client = httpx.AsyncClient(proxy=settings.proxy)
+        return CiviClient(settings.api_key, httpx_client, async_httpx_client)
+    else:
+        return CiviClient(settings.api_key)
+
+civitai_api = instantiate_civitai_client(settings)
