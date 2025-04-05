@@ -6,7 +6,7 @@ import { modelVersion_Base_file, modelVersion_Base_image } from './misc'
 export const modelVersion_Base = type({
   id: 'number',
   name: 'string',
-  publishedAt: 'string', // ISO 8061
+  publishedAt: 'string | null', // ISO 8061
   // status: 'string',
   trainedWords: 'string[]',
   baseModel: 'string',

@@ -1,5 +1,6 @@
 import { models_request_opts, models_response } from '../models/models_endpoint'
 import type { ModelsRequestOpts } from '../models/models_endpoint'
+import type { CreatorsRequestOpts, Creator } from '../models/creators_endpoint'
 import ky from 'ky'
 import { objectToQueryString } from './misc'
 

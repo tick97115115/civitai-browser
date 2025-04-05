@@ -1,54 +1,67 @@
 <template>
   <v-container>
-      <v-row equal>
-        <v-col v-for="item in models.items" :key="item.id" sm="3" md="2" xl="1">
-          <v-dialog max-width="1000px" width="70vw">
-            <template v-slot:activator="{ props: activatorProps }">
-              <v-card link v-bind="activatorProps">
-            <v-img :src="item.modelVersions[0].images[0].url" height="15vh" min-height="200px" cover>
-            </v-img>
-            <v-card-text>
-              {{ item.name }}
-            </v-card-text>
-          </v-card>
-              
-            </template>
-            <template v-slot:default="{ isActive }">
-                <v-layout>
-                  <v-app-bar>
-                    <v-tabs v-model="tab">
-                      <v-tab v-for="modelVersion in item.modelVersions" :key="modelVersion.id" :text="modelVersion.name" :value="modelVersion.id"></v-tab>
-                    </v-tabs>
-                  </v-app-bar>
-                  <v-main>
-                    <v-tabs-window v-model="tab">
-                      <v-tabs-window-item v-for="modelVersion in item.modelVersions" :key="modelVersion.id" :value="modelVersion.id">
-                        <v-card>
-                  <v-container>
-                    <div>{{ modelVersion['description'] }}</div>
-                  </v-container>
-                </v-card>
-                      </v-tabs-window-item>
-                    </v-tabs-window>
-                  </v-main>
-                </v-layout>
-              </template>
-          </v-dialog>
-          <!-- <v-card link>
+    <v-row equal>
+      <v-col v-for="item in models.items" :key="item.id" sm="3" md="2" xl="1">
+        <v-dialog max-width="1000px" width="70vw">
+          <template v-slot:activator="{ props: activatorProps }">
+            <v-card link v-bind="activatorProps">
+              <v-img
+                :src="item.modelVersions[0].images[0].url"
+                height="15vh"
+                min-height="200px"
+                cover
+              >
+              </v-img>
+              <v-card-text>
+                {{ item.name }}
+              </v-card-text>
+            </v-card>
+          </template>
+          <template v-slot:default="{ isActive }">
+            <v-layout>
+              <v-app-bar>
+                <v-tabs v-model="tab">
+                  <v-tab
+                    v-for="modelVersion in item.modelVersions"
+                    :key="modelVersion.id"
+                    :text="modelVersion.name"
+                    :value="modelVersion.id"
+                  ></v-tab>
+                </v-tabs>
+              </v-app-bar>
+              <v-main>
+                <v-tabs-window v-model="tab">
+                  <v-tabs-window-item
+                    v-for="modelVersion in item.modelVersions"
+                    :key="modelVersion.id"
+                    :value="modelVersion.id"
+                  >
+                    <v-card>
+                      <v-container>
+                        <div>{{ modelVersion['description'] }}</div>
+                      </v-container>
+                    </v-card>
+                  </v-tabs-window-item>
+                </v-tabs-window>
+              </v-main>
+            </v-layout>
+          </template>
+        </v-dialog>
+        <!-- <v-card link>
             <v-img :src="item.modelVersions[0].images[0].url" height="15vh" min-height="200px" cover>
             </v-img>
             <v-card-text>
               {{ item.name }}
             </v-card-text>
           </v-card> -->
-        </v-col>
-      </v-row>
-    </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { models_response } from "../../models/models_endpoint";
+import { ref } from 'vue'
+import { models_response } from '../../models/models_endpoint'
 type ModelsResponse = typeof models_response.infer
 const models = ref<ModelsResponse | null>(null)
 const models_json = {
@@ -381,5 +394,4 @@ const models_json = {
 }
 const tab = ref(null)
 models.value = models_json
-
 </script>

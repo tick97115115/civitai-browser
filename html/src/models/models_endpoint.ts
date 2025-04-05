@@ -18,6 +18,7 @@ export const models_response = type({
     'prevPage?': 'string.url',
   },
 })
+export type ModelsResponse = typeof models_response.infer
 
 export const models_request_opts = type({
   'limit?': 'number.integer', // The number of results to be returned per page. This can be a number between 1 and 100. By default, each page will return 100 results
@@ -40,5 +41,4 @@ export const models_request_opts = type({
   'supportsGeneration?': 'boolean', // If true, will return models that support generation
   'token?': 'string', // required for search models
 })
-
 export type ModelsRequestOpts = typeof models_request_opts.infer

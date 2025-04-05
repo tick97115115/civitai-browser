@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import SearchButtonModelsTab from './SearchButtonModelsTab.vue'
+import SearchButtonModelsTab from './ModelsSearchContext.vue'
 import SearchButtonCreatorsTab from './SearchButtonCreatorsTab.vue'
 import SearchButtonTagsTab from './SearchButtonTagsTab.vue'
 import { ref, shallowRef } from 'vue'

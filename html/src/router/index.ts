@@ -3,23 +3,13 @@ import type { RouteRecordRaw } from 'vue-router'
 import ModelsView from '../views/civitai/Models.vue'
 import ModelIdView from '../views/civitai/ModelId.vue'
 import CreatorsView from '../views/civitai/Creators.vue'
-import TagsView from '../views/civitai/Tags.vue'
 import LocalView from '../views/civitai/Local.vue'
+import CivitAIView from '../views/CivitAI.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'civitai_models',
-    component: ModelsView,
-  },
-  {
-    path: '/creators',
-    name: 'civitai_creators',
-    component: CreatorsView,
-  },
-  {
-    path: '/tags',
-    name: 'civitai_tags',
-    component: TagsView,
+    name: 'civitai',
+    component: CivitAIView,
   },
   {
     path: '/local',

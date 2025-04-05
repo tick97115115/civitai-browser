@@ -8,6 +8,7 @@ export const modelId_endpoint_modelVersion = modelVersion_Base.and({
   index: 'number.integer', // the position in modelId.modelVersions array.
   nsfwLevel: 'number.integer',
 })
+export type ModelIdEndpointModelVersion = typeof modelId_endpoint_modelVersion.infer
 
 import { creators_response_creator } from './creators_endpoint'
 // https://www.jsondiff.com/ 找到共有属性名
@@ -26,7 +27,7 @@ export const modelId_response = type({
   nsfw: 'boolean',
   nsfwLevel: 'number.integer',
   tags: 'string[]',
-  creator: creators_response_creator,
+  'creator?': creators_response_creator,
   stats: {
     downloadCount: 'number.integer',
     favoriteCount: 'number.integer',
@@ -39,3 +40,4 @@ export const modelId_response = type({
   },
   modelVersions: modelId_endpoint_modelVersion.array(),
 })
+export type ModelIdResponse = typeof modelId_response.infer
