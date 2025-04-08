@@ -14,7 +14,7 @@ class CivitAI_Model(SQLModel, table=True):
     name: str = Field(index=True)
     type: Model_Types = Field(index=True)
     nsfw: bool
-    json_data: dict = Field(sa_column=Column(JSON), default_factory=dict)
+    model_id_info: dict = Field(sa_column=Column(JSON), default_factory=dict)
     model_versions: list["CivitAI_ModelVersion"] = Relationship(back_populates="model")
     
     tags: list["CivitAI_Tag"] = Relationship(back_populates="models", link_model=CivitAI_ModelTagLink)
@@ -27,10 +27,11 @@ class CivitAI_Tag(SQLModel, table=True):
 
 class CivitAI_ModelVersion(SQLModel, table=True):
     id: StrictInt = Field(primary_key=True)
+    blake3: str = Field(index=True, unique=True)
     model_id: StrictInt = Field(foreign_key="civitai_model.id")
-    # json_data: dict = Field(sa_column=Column(JSON), default_factory=dict)
     model: CivitAI_Model = Relationship(back_populates="model_versions")
     images: list["CivitAI_ModelVersionImage"] = Relationship(back_populates="model_version")
+    model_version_info: dict = Field(sa_column=Column(JSON), default_factory=dict)
 
 class CivitAI_ModelVersionImage(SQLModel, table=True):
     id: StrictInt = Field(primary_key=True)

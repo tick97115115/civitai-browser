@@ -125,15 +125,15 @@ def check_settings(settings: Settings):
         raise GopeedServiceNotFound(msg="gopeed service url not found")
     
     # check if gopeed service is working
-    response = httpx.get(urljoin(settings.gopeed_url, '/api/v1/info'))
-    if response.status_code != 200:
-        raise GopeedServiceNotWorking(msg="gopeed service not working")
+    # response = httpx.get(urljoin(settings.gopeed_url, '/api/v1/info'))
+    # if response.status_code != 200:
+    #     raise GopeedServiceNotWorking(msg="gopeed service not working")
     
     # check database
     # if not exists(settings.db_uri):
     #     raise DatabaseNotFound(msg="database doesn't exists")
 
-@router.get("/api/v1/settings", response_model=Settings)
+# @router.get("/api/v1/settings", response_model=Settings)
 def load_settings() -> Settings:
     # if file content broken makes it un deserializable
     try:
@@ -144,9 +144,9 @@ def load_settings() -> Settings:
             check_settings(settings)
             return settings
     except Exception as e:
-        raise LoadSettingsError(str(e))
+        raise e
 
-@router.post("/api/v1/settings")
+# @router.post("/api/v1/settings")
 def save_settings(settings: Settings):
     with open(settings_file, 'w', encoding="utf-8") as f:
         f.write(settings.model_dump_json(indent=2))

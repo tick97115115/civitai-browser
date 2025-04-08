@@ -1,22 +1,48 @@
 import init
 
+# from gradio_ui.pages.main import demo
 
-# from sqlmodel import create_engine, SQLModel
-# from api.v1.routers.settings import init, load_settings
-# settings = init()
+# if __name__ == "__main__":
+#     demo.launch()
 
-# from api.app import app
-# from api.v1.routers.settings import router as settings_router
-# from api.v1.routers.ai_models import router as download_router
-# import api.v1.db.civitai_table
-# import api.v1.db.gopeed_table
-# app.include_router(settings_router)
-# app.include_router(download_router)
+import gradio as gr
+import random
+import time
 
-# settings = load_settings()
-# engine = create_engine(settings.db_uri)
-# SQLModel.metadata.create_all(engine)
+with gr.Blocks() as demo:
+    name = gr.Textbox(label="Name")
+    output = gr.Textbox(label="Output Box")
+    greet_btn = gr.Button("Greet")
+    @gr.on([greet_btn.click, name.submit], inputs=name, outputs=output)
+    def greet(name):
+        return "Hello " + name + "!"
+    
+    @gr.render(inputs=name, triggers=[output.change])
+    def spell_out(name):
+        with gr.Row():
+            for letter in name:
+                gr.Textbox(letter)
 
-# if __name__ == '__main__':
-#     settings = init()
-#     app.include_router(settings_router)    
+with demo.route("Up") as incrementer_demo:
+    num = gr.Number()
+    incrementer_demo.load(lambda: time.sleep(1) or random.randint(10, 40), None, num)
+
+    with gr.Row():
+        inc_btn = gr.Button("Increase")
+        dec_btn = gr.Button("Decrease")
+    inc_btn.click(fn=lambda x: x + 1, inputs=num, outputs=num, api_name="increment")
+    dec_btn.click(fn=lambda x: x - 1, inputs=num, outputs=num, api_name="decrement")
+    for i in range(100):
+        gr.Textbox()
+
+def wait(x):
+    time.sleep(2)
+    return x
+
+identity_iface = gr.Interface(wait, "image", "image")
+
+with demo.route("Interface") as incrementer_demo:
+    identity_iface.render()
+    gr.Interface(lambda x, y: x * y, ["number", "number"], "number")
+
+demo.launch()

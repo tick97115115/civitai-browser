@@ -356,7 +356,7 @@ def test_create_model(civitai_model_data_1, session):
         name=model_validate.name,
         type=model_validate.type,
         nsfw=model_validate.nsfw,
-        json_data=model_validate.model_dump(),
+        model_id_info=model_validate.model_dump(),
         tags=[],
         model_versions=[]
         )

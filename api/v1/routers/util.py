@@ -4,8 +4,11 @@ from civitai_api.v1.models.base.modelVersion import Base_ModelVersion
 from civitai_api.v1.models.base.misc import Model_Types
 from fastapi import APIRouter
 from pydantic import StrictInt
+from ..dependencies import DbSessionDep
 import pathlib
 import anyio
+import init
+
 
 civitai_browser_folder_name = 'civitai_browser'
 civitai_model_id_info_file_name = 'civitai_model_id_info.json'
@@ -62,3 +65,50 @@ def get_model_version_file_download_path(modelId_model: ModelId_Response, versio
     model_version = find_modelVersion_in_modelId_response(modelId_model, versionId)
     model_path = pathlib.Path(get_model_version_path(modelId_model.id, versionId, modelType)) / (modelId_model.name + model_version.name)
     return str(model_path.absolute())
+
+lock = anyio.Lock()
+is_scanning = False
+
+@router.get('/api/v1/util/fetch_model_version_info')
+def fetch_model_version_info(modelId: int, versionId: int, modelType: Model_Types):
+    model_path_str = get_model_version_path(modelId=modelId, versionId=versionId, modelType=modelType)
+    model_path = pathlib.Path(model_path_str)
+    if not model_path.exists():
+        raise Exception("Model path not found")
+    if not (model_path / civitai_model_version_info_file_name).exists():
+        raise Exception("Model version info file not found")
+    
+
+@router.get('/api/v1/util/scan_models')
+async def scan_models(session: DbSessionDep):
+    global is_scanning
+
+    if is_scanning:
+        return {"status": "scanning"}
+    try:
+        async with lock:
+            is_scanning = True
+            lora_folder_path = anyio.Path(init.settings.lora_folder)
+            ckpt_folder_path = anyio.Path(init.settings.checkpoint_folder)
+            allowed_extensions = ['.safetensors', '.ckpt', '.pt', '.lora', '.lycoris']
+            if not lora_folder_path.is_dir() or not lora_folder_path.exists():
+                raise Exception("Lora folder not found")
+            if not ckpt_folder_path.is_dir() or not ckpt_folder_path.exists():
+                raise Exception("Checkpoint folder not found")
+            
+            lora_files = []
+            ckpt_files = []
+
+            async for file in lora_folder_path.rglob('*'):
+                if file.is_file() and file.suffix.lower() in allowed_extensions:
+                    # lora_files.append(file)
+                    file_path = await file.absolute()
+                    file_name_without_ext = file_path.stem
+                    # detect api-info.json
+                    api_info_file = file_path.parent / (file_name_without_ext + '.api-info.json')
+                    if api_info_file.exists():
+                        async with api_info_file.open('r') as f:
+                            content = await f.read()
+                            if content:
+                                lora_files.append(file_path)
+                    # 
