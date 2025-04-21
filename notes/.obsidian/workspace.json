@@ -43,9 +43,9 @@
               "state": {
                 "file": "Blueprint.canvas",
                 "viewState": {
-                  "x": 5679,
-                  "y": 1714.6282978330426,
-                  "zoom": -0.6666666666666666
+                  "x": 1082.8973912905192,
+                  "y": 2267.246425327115,
+                  "zoom": -0.6100048221208373
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -197,6 +197,9 @@
   },
   "active": "ee75c8b0f83557f7",
   "lastOpenFiles": [
+    "Intro.md",
+    "Pasted image 20250203082728.png",
+    "Blueprint.canvas",
     "Untitled.md",
     "Logic/Download_models/Untitled.canvas",
     "Logic/tag_system/tag_system_design.canvas",
@@ -209,12 +212,9 @@
     "CivitAI/基于civitai API实现的模型浏览功能十分有限.md",
     "program",
     "CivitAI/imgs/Pasted image 20250315005557.png",
-    "Pasted image 20250203082728.png",
     "CivitAI/imgs/Pasted image 20250315005420.png",
     "CivitAI/imgs/Screenshot 2025-03-15 003235.png",
     "CivitAI/imgs",
-    "Blueprint.canvas",
-    "Intro.md",
     "Functions/safetensors file info extraction.md",
     "Logic/tag_system",
     "Functions/Danbooru Tag Dictionary.md",
